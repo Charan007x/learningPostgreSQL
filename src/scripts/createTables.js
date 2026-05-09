@@ -1,6 +1,6 @@
 import pool from '../config/db.js';
 
-const createTables = async () => {
+const createUserTables = async () => {
     try {
         await pool.query(`
             CREATE TABLE IF NOT EXISTS users (
@@ -19,4 +19,24 @@ const createTables = async () => {
     }
 };
 
-createTables();
+const createUrlTables = async () => {
+    try{
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS urls (
+                id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+                user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+                original_url TEXT NOT NULL,
+                short_url VARCHAR(255) NOT NULL UNIQUE,
+                clicks BIGINT DEFAULT 0,
+                created_at TIMESTAMPTZ DEFAULT NOW(),
+                updated_at TIMESTAMPTZ DEFAULT NOW()
+            );
+        `);
+        console.log('URL table created successfully');
+    }catch(err){
+        console.error('Error creating tables', err.stack);
+    }
+};
+
+createUserTables();
+createUrlTables();
