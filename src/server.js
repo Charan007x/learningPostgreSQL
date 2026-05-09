@@ -8,11 +8,12 @@ import userRoutes from './routes/userRoutes.js';
 
 //middleware
 app.use(express.json());
-app.use(errorHandler);
 
 //routes
 app.use('/api/v1/users',userRoutes);
 
+//error handling middleware
+app.use(errorHandler);
 
 // listening to the server
 const PORT=process.env.PORT || 3000;

@@ -20,3 +20,8 @@ export const createUser=async(username,email,phn,password)=>{
         );
         return result.rows[0];
 };
+
+export const findUserByUsername=async(username)=>{
+        const result=await pool.query('SELECT * FROM users WHERE username=$1',[username]);
+        return result.rows[0];
+};
