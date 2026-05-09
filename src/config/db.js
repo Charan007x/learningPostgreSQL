@@ -19,6 +19,5 @@ pool.query('SELECT NOW()', (err, res) => {
     } else {
         console.log('Database connected');
     }
-    pool.end();
 });
 export default pool;
