@@ -6,7 +6,7 @@ import pool from './config/db.js';
 import errorHandler from './middleware/errorHandler.js';
 import userRoutes from './routes/userRoutes.js';
 import urlRoutes from './routes/urlRoutes.js';
-
+import redisClient from './config/redis.js';
 //middleware
 app.use(express.json());
 
