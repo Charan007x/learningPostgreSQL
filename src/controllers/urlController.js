@@ -19,9 +19,11 @@ export const createShortUrl=async(req,res,next)=>{
 export const getUrlByShortUrl=async(req,res,next)=>{
     const { shortUrl } = req.params;
     try {
-        
             const originalUrl=await redisClient.get(shortUrl);
-            if(originalUrl) return res.redirect(originalUrl); // redirect to the original URL
+            if(originalUrl) {
+                urlService.getUrlByShortUrl(shortUrl); // Increment click count in the database
+                return res.redirect(originalUrl); // redirect to the original URL
+            }
         const url = await urlService.getUrlByShortUrl(shortUrl);
         await redisClient.setEx(shortUrl, 3600, url.original_url); // Cache the URL in Redis for future requests
         res.redirect(url.original_url); // redirect to the original URL
